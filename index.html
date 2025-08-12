@@ -3,255 +3,195 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Login First - Professional Style</title>
+<title>Amar Cloub</title>
 <style>
+  /* Reset & base */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    margin: 0; padding: 0;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    color: #eee;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   .container {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(15px);
+    background: rgba(255 255 255 / 0.1);
     border-radius: 20px;
-    width: 360px;
-    padding: 40px 30px;
-    box-sizing: border-box;
-    box-shadow: 0 0 40px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255 255 255 / 0.18);
+    max-width: 400px;
+    width: 100%;
+    padding: 30px 25px 40px 25px;
     text-align: center;
   }
-  h2 {
-    margin-bottom: 30px;
+  h1 {
     font-weight: 700;
-    font-size: 28px;
-    letter-spacing: 1px;
+    font-size: 2.4rem;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: 2px;
   }
-  input {
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    text-align: left;
+    color: #ddd;
+  }
+  input[type="text"] {
     width: 100%;
-    padding: 14px 18px;
-    margin: 12px 0;
+    padding: 12px 15px;
     border-radius: 12px;
     border: none;
-    font-size: 16px;
-    outline: none;
-    background: rgba(255,255,255,0.15);
-    color: white;
-    box-sizing: border-box;
-    transition: background 0.3s ease;
+    background: rgba(255 255 255 / 0.15);
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
   }
-  input:focus {
-    background: rgba(255,255,255,0.3);
+  input[type="text"]:focus {
+    outline: none;
+    background: rgba(255 255 255 / 0.3);
+    box-shadow: 0 0 8px #8877ffaa;
   }
   button {
     width: 100%;
-    padding: 15px 0;
-    margin-top: 15px;
-    font-size: 17px;
-    font-weight: 700;
-    color: white;
-    background: linear-gradient(90deg, #00f260, #0575e6);
+    padding: 14px;
+    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
     border: none;
-    border-radius: 12px;
+    border-radius: 18px;
+    color: #0f0f2e;
+    font-size: 1.2rem;
+    font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 255, 128, 0.7);
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: linear-gradient(90deg, #0575e6, #00f260);
-  }
-  .link {
-    margin-top: 20px;
-    font-size: 15px;
-    color: #a0cfff;
-    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(102, 166, 255, 0.6);
+    transition: all 0.3s ease;
     user-select: none;
   }
-  .link:hover {
-    text-decoration: underline;
+  button:hover {
+    background: linear-gradient(135deg, #66a6ff 0%, #89f7fe 100%);
+    box-shadow: 0 12px 24px rgba(102, 166, 255, 0.8);
   }
-
-  /* Hide all but one container */
-  #registerDiv, #mainContent {
-    display: none;
+  .result-box {
+    margin-top: 28px;
+    padding: 25px;
+    border-radius: 18px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    user-select: none;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    letter-spacing: 1.5px;
+    transition: background-color 0.4s ease;
+  }
+  .small {
+    background-color: #2196f3; /* Blue for Small */
+    box-shadow: 0 0 12px #2196f3aa;
+  }
+  .big {
+    background-color: #ff9800; /* Orange for Big */
+    box-shadow: 0 0 12px #ff9800aa;
+  }
+  .red {
+    color: #e53935;
+  }
+  .green {
+    color: #43a047;
+  }
+  @media (max-width: 440px) {
+    .container {
+      max-width: 95vw;
+      padding: 25px 20px 35px 20px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+    input[type="text"] {
+      font-size: 1rem;
+    }
+    button {
+      font-size: 1.1rem;
+      padding: 12px;
+    }
+    .result-box {
+      font-size: 1.3rem;
+      padding: 18px;
+      min-height: 55px;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- Login Form -->
-<div id="loginDiv" class="container">
-  <h2>Login to Your Account</h2>
-  <input type="text" id="loginPhone" placeholder="Phone Number" maxlength="11" />
-  <input type="password" id="loginPass" placeholder="Password" />
-  <button onclick="loginUser()">Login</button>
-  <div class="link" onclick="showRegister()">Don't have an account? Register here</div>
-</div>
-
-<!-- Registration Form -->
-<div id="registerDiv" class="container">
-  <h2>Create New Account</h2>
-  <input type="text" id="regName" placeholder="Your Name" />
-  <input type="text" id="regPhone" placeholder="Phone Number" maxlength="11" />
-  <input type="password" id="regPass" placeholder="Password" />
-  <input type="password" id="regPassConfirm" placeholder="Confirm Password" />
-  <button onclick="registerUser()">Register</button>
-  <div class="link" onclick="showLogin()">Already have an account? Login here</div>
-</div>
-
-<!-- Main Content -->
-<div id="mainContent" class="container" style="max-width: 460px; overflow: hidden;">
-  <h2>COLOUR TRADING VIP SIGNAL</h2>
-  <input type="text" id="periodInput" placeholder="Enter 3-digit Period Number" maxlength="3" style="color: white;"/>
-  <button onclick="processPeriod()">Send Now</button>
-  <div id="resultWrapper" style="margin-top: 30px; opacity: 0; transform: scale(0.9); transition: opacity 0.5s ease, transform 0.5s ease;">
-    <div style="font-size: 20px; color: #ffffffcc; margin-bottom: 12px;">Result:</div>
-    <div id="resultBox" style="padding: 25px; border-radius: 15px; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); font-size: 40px; font-weight: 700; color: white; text-shadow: 0 0 12px #fff;"></div>
+<div class="container" role="main" aria-label="Amar Cloub Big Small Result Calculator">
+  <h1>Amar Cloub</h1>
+  
+  <form id="cloubForm" autocomplete="off" aria-describedby="instructions">
+    <label for="numbersInput">Enter Three Numbers (0-9) Without Spaces</label>
+    <input type="text" id="numbersInput" name="numbersInput" maxlength="3" pattern="[0-9]{3}" required aria-required="true" aria-label="Three digit number input" placeholder="e.g. 123" inputmode="numeric" />
+    
+    <button type="submit" aria-live="polite" aria-atomic="true">Calculate Result</button>
+  </form>
+  
+  <div id="result" class="result-box" role="region" aria-live="polite" aria-atomic="true" aria-label="Calculation Result">
+    Please enter three numbers and click Calculate.
   </div>
-  <div class="link" style="margin-top: 25px; font-size: 14px; color: #ddd; cursor: pointer;" onclick="logoutUser()">Logout</div>
 </div>
 
 <script>
-  // Show/hide forms
-  function showRegister() {
-    document.getElementById("loginDiv").style.display = "none";
-    document.getElementById("registerDiv").style.display = "block";
-    document.getElementById("mainContent").style.display = "none";
-  }
-  function showLogin() {
-    document.getElementById("loginDiv").style.display = "block";
-    document.getElementById("registerDiv").style.display = "none";
-    document.getElementById("mainContent").style.display = "none";
-  }
-  function showMainContent() {
-    document.getElementById("loginDiv").style.display = "none";
-    document.getElementById("registerDiv").style.display = "none";
-    document.getElementById("mainContent").style.display = "block";
-  }
+  const form = document.getElementById('cloubForm');
+  const resultBox = document.getElementById('result');
 
-  // Register user
-  function registerUser() {
-    const name = document.getElementById("regName").value.trim();
-    const phone = document.getElementById("regPhone").value.trim();
-    const pass = document.getElementById("regPass").value;
-    const passConfirm = document.getElementById("regPassConfirm").value;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
 
-    if (!name || !phone || !pass || !passConfirm) {
-      alert("All fields are required.");
-      return;
-    }
-    if (phone.length !== 11 || isNaN(phone)) {
-      alert("Enter a valid 11 digit phone number.");
-      return;
-    }
-    if (pass !== passConfirm) {
-      alert("Passwords do not match.");
+    let inputVal = form.numbersInput.value.trim();
+
+    if (!/^[0-9]{3}$/.test(inputVal)) {
+      resultBox.textContent = "Please enter exactly 3 digits (0-9) without spaces.";
+      resultBox.className = "result-box";
       return;
     }
 
-    if (localStorage.getItem("user_" + phone)) {
-      alert("Phone number already registered.");
-      return;
-    }
+    const digits = inputVal.split('').map(d => parseInt(d, 10));
+    const [n1, n2, n3] = digits;
 
-    const userData = { name, phone, pass };
-    localStorage.setItem("user_" + phone, JSON.stringify(userData));
-    alert("Registration successful! Please login.");
+    const sumFirstTwo = n1 + n2;
+    const diff = Math.abs(sumFirstTwo - n3);
 
-    showLogin();
-  }
-
-  // Login user
-  function loginUser() {
-    const phone = document.getElementById("loginPhone").value.trim();
-    const pass = document.getElementById("loginPass").value;
-
-    if (!phone || !pass) {
-      alert("Please enter phone number and password.");
-      return;
-    }
-
-    const userData = localStorage.getItem("user_" + phone);
-    if (!userData) {
-      alert("User not found. Please register first.");
-      return;
-    }
-
-    const user = JSON.parse(userData);
-    if (user.pass !== pass) {
-      alert("Incorrect password.");
-      return;
-    }
-
-    localStorage.setItem("loggedInUser", phone);
-    showMainContent();
-  }
-
-  // Logout user
-  function logoutUser() {
-    localStorage.removeItem("loggedInUser");
-    showLogin();
-  }
-
-  // Check if logged in on page load
-  window.onload = function () {
-    const loggedInUser = localStorage.getItem("loggedInUser");
-    if (loggedInUser) {
-      showMainContent();
+    let sizeClass = "";
+    if (diff >= 0 && diff <= 4) {
+      sizeClass = "small";
+    } else if (diff >= 5 && diff <= 9) {
+      sizeClass = "big";
     } else {
-      showLogin();
-    }
-  };
-
-  // Your existing function for main content
-  function processPeriod() {
-    const input = document.getElementById("periodInput").value.trim();
-    const resultWrapper = document.getElementById("resultWrapper");
-    const resultBox = document.getElementById("resultBox");
-
-    if (input.length !== 3 || isNaN(input)) {
-      alert("Please enter a valid 3-digit number.");
-      return;
+      sizeClass = "";
     }
 
-    const a = parseInt(input[0]);
-    const b = parseInt(input[1]);
-    const c = parseInt(input[2]);
+    // জোড় হলে রেড, বিজোড় হলে গ্রীন
+    const colorClass = (diff % 2 === 0) ? "red" : "green";
 
-    const sum = a + b;
-    const result = sum - c;
+    const resultText = `Result: <span>${diff}</span> — ${sizeClass.toUpperCase()} — <span>${colorClass.toUpperCase()}</span>`;
 
-    resultWrapper.style.opacity = "1";
-    resultWrapper.style.transform = "scale(1)";
-    resultBox.innerHTML = `<div class="spinner" style="border:5px solid rgba(255,255,255,0.3); border-top:5px solid white; border-radius:50%; width:30px; height:30px; animation:spin 1s linear infinite; margin:10px auto;"></div>
-    <div style="color:#fff; font-weight:600; font-size:18px; margin-top:10px; text-shadow: 0 0 5px #ffffff88;">Processing...</div>`;
-
-    setTimeout(() => {
-      if (result % 2 === 0) {
-        resultBox.textContent = "RED";
-        resultBox.style.color = "#ff4d4d";
-        resultBox.style.textShadow = "0 0 12px #ff4d4d, 0 0 24px #ff4d4d99";
-      } else {
-        resultBox.textContent = "GREEN";
-        resultBox.style.color = "#00ff88";
-        resultBox.style.textShadow = "0 0 12px #00ff88, 0 0 24px #00ff8899";
-      }
-    }, 2000);
-  }
-
-  // Spinner animation CSS
-  const style = document.createElement('style');
-  style.innerHTML = `
-    @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
-    }
-  `;
-  document.head.appendChild(style);
+    resultBox.innerHTML = resultText;
+    resultBox.className = `result-box ${sizeClass} ${colorClass}`;
+  });
 </script>
 
 </body>
