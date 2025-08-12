@@ -5,11 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>🎁 𝗔𝗠𝗔𝗥 𝗖𝗟𝗨𝗕 𝗕𝗜𝗚 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</title>
   <style>
-    /* Reset */
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,7 +18,6 @@
       align-items: center;
       padding: 30px;
     }
-    /* Container Card */
     .card {
       background: #2a3a55;
       border-radius: 20px;
@@ -33,13 +29,14 @@
       max-width: 420px;
       text-align: center;
       user-select: none;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
     }
-    /* Title */
     h1 {
       font-size: 2.8rem;
       font-weight: 900;
       color: #00ff88;
-      margin-bottom: 30px;
       letter-spacing: 3px;
       text-shadow:
         0 0 8px #00ff88,
@@ -50,19 +47,17 @@
       0% { text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88cc; }
       100% { text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88cc; }
     }
-    /* Input & Button */
     .input-container {
       display: flex;
       gap: 15px;
-      margin-bottom: 25px;
       justify-content: center;
       flex-wrap: wrap;
     }
     input[type="text"] {
       flex: 1 1 170px;
       padding: 20px 25px;
-      font-size: 2.4rem; /* বড় ফন্ট সাইজ */
-      font-weight: 700; /* মোটা ফন্ট */
+      font-size: 2.4rem;
+      font-weight: 700;
       border-radius: 12px;
       border: none;
       outline: none;
@@ -71,7 +66,7 @@
       box-shadow: inset 0 0 12px #00ff8844;
       text-align: center;
       transition: box-shadow 0.3s ease;
-      letter-spacing: 6px; /* সংখ্যাগুলো আলাদা করার জন্য */
+      letter-spacing: 6px;
       user-select: text;
     }
     input[type="text"]:focus {
@@ -81,7 +76,7 @@
       background: #00ff88;
       color: #121212;
       font-weight: 700;
-      font-size: 1.5rem; /* একটু বড় */
+      font-size: 1.5rem;
       padding: 18px 30px;
       border-radius: 12px;
       border: none;
@@ -95,9 +90,7 @@
       background-color: #00cc6a;
       transform: scale(1.05);
     }
-    /* Result card */
     #resultWrapper {
-      margin-top: 20px;
       background: #1f2c41;
       border-radius: 15px;
       padding: 25px 30px;
@@ -116,7 +109,6 @@
       opacity: 1;
       transform: scale(1);
     }
-    /* Result texts container */
     .result-row {
       display: flex;
       gap: 30px;
@@ -124,7 +116,6 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    /* Size & Color boxes */
     .result-box {
       background: #2a3a55;
       border-radius: 15px;
@@ -145,7 +136,6 @@
       margin-bottom: 10px;
       user-select: none;
     }
-    /* Animated size text */
     .size-text {
       font-weight: 900;
       font-size: 2.5rem;
@@ -158,7 +148,6 @@
       50% { color: #00ff88; text-shadow: 0 0 15px #00ff88bb; }
       100% { color: #ccc; text-shadow: none; }
     }
-    /* Animated color text */
     .color-text {
       font-weight: 900;
       font-size: 2.5rem;
@@ -179,7 +168,6 @@
       0%, 100% { text-shadow: 0 0 10px; }
       50% { text-shadow: 0 0 25px; }
     }
-    /* Spinner */
     .spinner {
       border: 5px solid rgba(255, 255, 255, 0.15);
       border-top: 5px solid #00ff88;
@@ -190,11 +178,8 @@
       margin: 0 auto 15px;
     }
     @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+      to { transform: rotate(360deg); }
     }
-    /* Responsive */
     @media (max-width: 440px) {
       .input-container {
         flex-direction: column;
@@ -243,22 +228,18 @@
       const resultWrapper = document.getElementById("resultWrapper");
       const resultBox = document.getElementById("resultBox");
 
-      // Validate input
       if (!/^\d{3}$/.test(input)) {
         alert("Please enter a valid 3-digit number.");
         inputField.focus();
         return;
       }
 
-      // Parse digits
       const a = parseInt(input[0], 10);
       const b = parseInt(input[1], 10);
       const c = parseInt(input[2], 10);
 
-      // Calculate result = (a + b) - c
       const result = (a + b) - c;
 
-      // Color logic based on parity of result
       let colorClass = "";
       let colorText = "";
       if (result % 2 === 0) {
@@ -269,15 +250,8 @@
         colorText = "GREEN";
       }
 
-      // Size logic based on last digit c
-      let sizeText = "";
-      if (c >= 0 && c <= 4) {
-        sizeText = "SMALL";
-      } else {
-        sizeText = "BIG";
-      }
+      let sizeText = c <= 4 ? "SMALL" : "BIG";
 
-      // Show loading spinner first
       resultBox.innerHTML = `
         <div class="spinner" role="img" aria-label="Loading"></div>
         <div style="font-weight:600; font-size:1.1rem; color:#aaa; user-select:none;">Processing...</div>
@@ -297,7 +271,7 @@
             </div>
           </div>
         `;
-      }, 1400);
+      }, 1300);
     }
   </script>
 </body>
