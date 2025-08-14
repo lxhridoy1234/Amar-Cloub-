@@ -208,7 +208,7 @@
 </div>
 
 <script>
-  /* ===== Matrix effect (infinite downward rain, no gaps) ===== */
+  /* ===== Matrix effect ===== */
   const canvas = document.getElementById("matrix");
   const ctx = canvas.getContext("2d");
 
@@ -220,12 +220,11 @@
   window.addEventListener("resize", resizeCanvas);
 
   const glyphs = "01<>[]{}#@$%^&*+=-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  const fontSize = 16; // tuned for mobile readability
+  const fontSize = 16;
   let columns = Math.floor(canvas.width / fontSize);
   let drops = new Array(columns).fill(0);
 
   function draw() {
-    // Slight transparent fill to create trailing effect (no full wipe, so no gaps)
     ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -239,7 +238,6 @@
 
       ctx.fillText(text, x, y);
 
-      // Keep it endless and dense: reset immediately when reaching bottom
       if (y > canvas.height) {
         drops[i] = 0;
       } else {
@@ -248,17 +246,14 @@
     }
     requestAnimationFrame(draw);
   }
-
-  // Start the animation loop
   requestAnimationFrame(draw);
 
-  // Recalculate columns/drops on rotate/resize (mobile safe)
   window.addEventListener("resize", () => {
     columns = Math.floor(canvas.width / fontSize);
     drops = new Array(columns).fill(0);
   });
 
-  /* ===== Calculator logic (unchanged) ===== */
+  /* ===== Calculator logic ===== */
   const form = document.getElementById('cloubForm');
   const resultBox = document.getElementById('result');
 
@@ -279,13 +274,14 @@
     const sumFirstTwo = n1 + n2;
     const diff = Math.abs(sumFirstTwo - n3);
 
+    // ✅ New Big/Small logic (based on last digit)
     let sizeClass = "";
-    if (diff >= 0 && diff <= 4) sizeClass = "small";
-    else if (diff >= 5 && diff <= 9) sizeClass = "big";
+    if (n3 >= 0 && n3 <= 4) sizeClass = "small";
+    else if (n3 >= 5 && n3 <= 9) sizeClass = "big";
 
+    // Color logic (unchanged)
     const colorClass = (diff % 2 === 0) ? "red" : "green";
 
-    // Hacking-style pre-result
     resultBox.textContent = "ACCESSING SYSTEM...";
     resultBox.className = "result-box hacking-effect";
 
