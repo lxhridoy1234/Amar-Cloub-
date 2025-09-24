@@ -3,43 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WIN GO — Unique Design</title>
+<title>WIN GO — Mobile Friendly</title>
 <style>
   body {
     margin:0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg,#1f1c2c,#928dab);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     display:flex;
     justify-content:center;
     align-items:center;
     height:100vh;
     color:#fff;
   }
+
   .card{
-    background: rgba(0,0,0,0.75);
-    border-radius:16px;
-    padding:30px 28px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius:18px;
+    padding:30px 24px;
     max-width:380px;
     width:90%;
     text-align:center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     position: relative;
   }
+
   h1{
     font-size:22px;
-    margin-bottom:16px;
+    margin-bottom:18px;
     color:#ffd166;
+    text-shadow:0 0 10px rgba(255,209,102,0.5);
   }
-  label{
-    display:block;
-    margin-bottom:8px;
-    color:#f0f0f0;
-    font-size:14px;
-  }
+
   input[type="text"]{
     width:100%;
     padding:14px 12px;
-    border-radius:10px;
+    border-radius:12px;
     border:none;
     outline:none;
     font-size:16px;
@@ -52,10 +51,11 @@
   input[type="text"]:focus{
     background: rgba(255,255,255,0.15);
   }
+
   button{
     width:100%;
     padding:14px;
-    border-radius:10px;
+    border-radius:12px;
     border:none;
     background: linear-gradient(135deg,#06d6a0,#1b9aaa);
     color:#fff;
@@ -67,11 +67,12 @@
   button:hover{
     transform: scale(1.03);
   }
+
   #result{
     margin-top:20px;
     padding:14px;
-    border-radius:10px;
-    background: rgba(255,255,255,0.1);
+    border-radius:12px;
+    background: rgba(255,255,255,0.08);
     min-height:50px;
     font-weight:700;
     font-size:18px;
@@ -80,13 +81,26 @@
     align-items:center;
     color:#fff;
   }
+
+  /* Spacing for color span */
+  #result span{
+    margin-left:10px;
+  }
+
   .red{color:#ff4d4d;}
   .green{color:#06d6a0;}
   .small{background: rgba(255,255,255,0.05);}
-  .big{background: rgba(255,255,255,0.1);}
+  .big{background: rgba(255,255,255,0.12);}
   .processing{
     font-style: italic;
     opacity:0.7;
+  }
+
+  @media (max-width:420px){
+    h1{ font-size:20px; }
+    input[type="text"]{ font-size:15px; padding:12px; }
+    button{ font-size:15px; padding:12px; }
+    #result{ font-size:16px; padding:12px; }
   }
 </style>
 </head>
@@ -94,8 +108,7 @@
 <div class="card">
   <h1>WIN GO 1 MINUTE</h1>
   <form id="calcForm" autocomplete="off">
-    <label for="numbersInput">Enter Three Numbers (0-9)</label>
-    <input type="text" id="numbersInput" maxlength="3" placeholder="e.g. 123" required inputmode="numeric">
+    <input type="text" id="numbersInput" maxlength="3" placeholder="Enter 3 digits" required inputmode="numeric">
     <button type="submit">Continue</button>
   </form>
   <div id="result">Enter numbers and click Continue</div>
@@ -114,7 +127,7 @@ form.addEventListener("submit",(e)=>{
   e.preventDefault();
   const val = input.value.trim();
   if(!/^[0-9]{3}$/.test(val)){
-    resultBox.textContent="Please enter exactly 3 digits (0-9).";
+    resultBox.textContent="Please enter exactly 3 digits.";
     return;
   }
 
@@ -130,9 +143,9 @@ form.addEventListener("submit",(e)=>{
     const sizeClass=(n3<=4)?"small":"big";
     const sizeText=(n3<=4)?"SMALL":"BIG";
 
-    resultBox.innerHTML=`${sizeText} — <span class="${colorClass}">${colorText}</span>`;
+    resultBox.innerHTML=`${sizeText} <span class="${colorClass}">${colorText}</span>`;
     resultBox.className=`${sizeClass} ${colorClass}`;
-  },1000); // 1 second delay
+  },1000); // 1 sec delay
 });
 </script>
 </body>
