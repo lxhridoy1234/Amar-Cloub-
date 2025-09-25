@@ -5,122 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Win Go 1 Minute — Hacking Simulator</title>
 <style>
-  :root {
-    --neon-green:#00ff99;
-    --neon-cyan:#00e5ff;
-    --danger:#ff003c;
-    --dark-bg:#0f2027;
-  }
+:root {
+  --neon-green:#00ff99;
+  --neon-cyan:#00e5ff;
+  --danger:#ff003c;
+  --dark-bg:#0a1115;
+}
 
-  body {
-    margin:0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background:#000;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    overflow:hidden;
-  }
+/* সব এলিমেন্টে বর্ডার + প্যাডিং ফিট করানোর জন্য */
+* {
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+}
 
-  canvas#matrix {
-    position: fixed;
-    top: 0;left: 0;
-    width: 100%;height: 100%;
-    z-index: -1;
-    background: black;
-  }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background:#000;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+}
 
-  .card {
-    background: rgba(0,0,0,0.6);
-    border: 1px solid var(--neon-green);
-    border-radius: 16px;
-    padding: 25px 20px;
-    max-width: 380px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 0 20px var(--neon-green);
-  }
+canvas#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #0a1115;
+}
 
-  .game-title{
-    font-size:22px;
-    font-weight:900;
-    text-align:center;
-    margin-bottom:15px;
-    color:var(--neon-cyan);
-    text-shadow:0 0 8px rgba(0,229,255,0.7);
-  }
+.card {
+  background: rgba(0,0,0,0.85);
+  border: 2px solid var(--neon-green);
+  border-radius: 20px;
+  padding: 30px 25px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 25px var(--neon-green);
+  backdrop-filter: blur(8px);
+}
 
-  input[type="text"]{
-    width:100%;
-    padding:14px 12px;
-    border-radius:12px;
-    border:none;
-    outline:none;
-    font-size:16px;
-    margin-bottom:14px;
-    text-align:center;
-    background: rgba(255,255,255,0.08);
-    color:#fff;
-    transition: 0.2s all;
-  }
-  input[type="text"]:focus{
-    background: rgba(255,255,255,0.15);
-    box-shadow:0 0 10px var(--neon-cyan);
-  }
+.game-title {
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:20px;
+  color:var(--neon-cyan);
+  text-shadow:0 0 12px rgba(0,229,255,0.7);
+}
 
-  button{
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:none;
-    background: linear-gradient(135deg,var(--neon-green),var(--neon-cyan));
-    color:#000;
-    font-weight:700;
-    font-size:16px;
-    cursor:pointer;
-    transition: 0.2s all;
-  }
-  button:hover{
-    transform: scale(1.05);
-    box-shadow:0 0 10px var(--neon-green);
-  }
+input[type="text"]{
+  width:100%;
+  padding:14px 12px;
+  border-radius:12px;
+  border: 2px solid var(--neon-cyan);
+  outline:none;
+  font-size:16px;
+  margin-bottom:16px;
+  text-align:center;
+  background: rgba(0,0,0,0.3);
+  color:#fff;
+  transition: 0.25s all;
+}
 
-  #result{
-    margin-top:20px;
-    padding:14px;
-    border-radius:12px;
-    background: rgba(255,255,255,0.05);
-    min-height:50px;
-    font-weight:700;
-    font-size:18px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#fff;
-  }
+input[type="text"]:focus{
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 0 15px var(--neon-cyan);
+  border-color: var(--neon-green);
+}
 
-  #result span{ margin-left:10px; }
+button{
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  border:none;
+  background: linear-gradient(135deg,var(--neon-green),var(--neon-cyan));
+  color:#000;
+  font-weight:700;
+  font-size:16px;
+  cursor:pointer;
+  transition: 0.25s all;
+}
+button:hover{
+  transform: scale(1.05);
+  box-shadow:0 0 15px var(--neon-green);
+}
 
-  .red{color:#ff4d4d;}
-  .green{color:#06d6a0;}
-  .small{background: rgba(255,255,255,0.05);}
-  .big{background: rgba(255,255,255,0.12);}
-  .processing{font-style: italic;opacity:0.7;}
+#result{
+  margin-top:20px;
+  padding:14px;
+  border-radius:12px;
+  background: rgba(255,255,255,0.05);
+  min-height:50px;
+  font-weight:700;
+  font-size:18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  transition: all 0.3s ease-in-out;
+}
 
-  /* Scan bar */
-  .scanWrap{margin-top:18px;position:relative;}
-  .scan{height:16px;border-radius:8px;background:#111;overflow:hidden;position:relative;border:1px solid rgba(0,255,170,0.4)}
-  .scan .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--danger),var(--neon-green));transition:width .15s linear}
-  .scan-percent{text-align:right;font-size:13px;margin-top:4px;color:var(--neon-green);font-weight:700}
+#result span{ margin-left:10px; }
 
-  @media (max-width:420px){
-    .game-title{font-size:20px;}
-    input[type="text"]{ font-size:15px; padding:12px;}
-    button{ font-size:15px; padding:12px;}
-    #result{ font-size:16px; padding:12px;}
-  }
+.red{color:#ff4d4d;}
+.green{color:#06d6a0;}
+.small{background: rgba(255,255,255,0.05);}
+.big{background: rgba(255,255,255,0.12);}
+.processing{font-style: italic;opacity:0.7;}
+
+.scanWrap{margin-top:18px;position:relative;}
+.scan{height:16px;border-radius:8px;background:#111;overflow:hidden;position:relative;border:1px solid rgba(0,255,170,0.4)}
+.scan .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--danger),var(--neon-green));transition:width .15s linear}
+.scan-percent{text-align:right;font-size:13px;margin-top:4px;color:var(--neon-green);font-weight:700}
+
+@media (max-width:420px){
+  .game-title{font-size:20px;}
+  input[type="text"]{ font-size:15px; padding:12px;}
+  button{ font-size:15px; padding:12px;}
+  #result{ font-size:16px; padding:12px;}
+}
 </style>
 </head>
 <body>
@@ -133,7 +143,6 @@
     <button type="submit">LAUNCH</button>
   </form>
 
-  <!-- Progress bar -->
   <div class="scanWrap">
     <div class="scan">
       <div id="scanBar" class="bar"></div>
@@ -150,11 +159,13 @@ const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
+
 const letters = "01".split("");
-const fontSize = 14;
-const columns = canvas.width / fontSize;
+const fontSize = 16;
+const columns = Math.floor(canvas.width / fontSize);
 const drops = [];
-for (let x = 0; x < columns; x++) drops[x] = 1;
+for (let x = 0; x < columns; x++) drops[x] = Math.random() * canvas.height;
+
 function draw() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -162,12 +173,17 @@ function draw() {
   ctx.font = fontSize + "px monospace";
   for (let i = 0; i < drops.length; i++) {
     const text = letters[Math.floor(Math.random() * letters.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-    drops[i]++;
+    ctx.fillText(text, i * fontSize, drops[i]);
+    if (drops[i] > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i] += fontSize * 0.6;
   }
 }
-setInterval(draw, 33);
+setInterval(draw, 50);
+
+window.addEventListener("resize", ()=>{
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+});
 
 // Helpers
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
@@ -196,7 +212,7 @@ const input = document.getElementById("numbersInput");
 const resultBox = document.getElementById("result");
 
 input.addEventListener("input",(e)=>{
-  e.target.value=e.target.value.replace(/\\D/g,'').slice(0,3);
+  e.target.value=e.target.value.replace(/\D/g,'').slice(0,3);
 });
 
 form.addEventListener("submit",async(e)=>{
@@ -218,7 +234,7 @@ form.addEventListener("submit",async(e)=>{
   const sizeClass=(n3<=4)?"small":"big";
   const sizeText=(n3<=4)?"SMALL":"BIG";
 
-  resultBox.innerHTML=`${sizeText} <span class=\"${colorClass}\">${colorText}</span>`;
+  resultBox.innerHTML=`${sizeText} <span class="${colorClass}">${colorText}</span>`;
   resultBox.className=`${sizeClass} ${colorClass}`;
 });
 </script>
