@@ -1,242 +1,218 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Win Go 1 Minute — Hacking Simulator</title>
-<style>
-:root {
-  --neon-green:#00ff99;
-  --neon-cyan:#00e5ff;
-  --danger:#ff003c;
-  --dark-bg:#0a1115;
-}
-
-/* সব এলিমেন্টে বর্ডার + প্যাডিং ফিট করানোর জন্য */
-* {
-  box-sizing: border-box;
-  margin:0;
-  padding:0;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background:#000;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  overflow:hidden;
-}
-
-canvas#matrix {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: #0a1115;
-}
-
-.card {
-  background: rgba(0,0,0,0.85);
-  border: 2px solid var(--neon-green);
-  border-radius: 20px;
-  padding: 30px 25px;
-  max-width: 380px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 0 25px var(--neon-green);
-  backdrop-filter: blur(8px);
-}
-
-.game-title {
-  font-size:24px;
-  font-weight:900;
-  margin-bottom:20px;
-  color:var(--neon-cyan);
-  text-shadow:0 0 12px rgba(0,229,255,0.7);
-}
-
-input[type="text"]{
-  width:100%;
-  padding:14px 12px;
-  border-radius:12px;
-  border: 2px solid var(--neon-cyan);
-  outline:none;
-  font-size:16px;
-  margin-bottom:16px;
-  text-align:center;
-  background: rgba(0,0,0,0.3);
-  color:#fff;
-  transition: 0.25s all;
-}
-
-input[type="text"]:focus{
-  background: rgba(0,0,0,0.4);
-  box-shadow: 0 0 15px var(--neon-cyan);
-  border-color: var(--neon-green);
-}
-
-button{
-  width:100%;
-  padding:16px;
-  border-radius:14px;
-  border:none;
-  background: linear-gradient(135deg,var(--neon-green),var(--neon-cyan));
-  color:#000;
-  font-weight:700;
-  font-size:16px;
-  cursor:pointer;
-  transition: 0.25s all;
-}
-button:hover{
-  transform: scale(1.05);
-  box-shadow:0 0 15px var(--neon-green);
-}
-
-#result{
-  margin-top:20px;
-  padding:14px;
-  border-radius:12px;
-  background: rgba(255,255,255,0.05);
-  min-height:50px;
-  font-weight:700;
-  font-size:18px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-  transition: all 0.3s ease-in-out;
-}
-
-#result span{ margin-left:10px; }
-
-.red{color:#ff4d4d;}
-.green{color:#06d6a0;}
-.small{background: rgba(255,255,255,0.05);}
-.big{background: rgba(255,255,255,0.12);}
-.processing{font-style: italic;opacity:0.7;}
-
-.scanWrap{margin-top:18px;position:relative;}
-.scan{height:16px;border-radius:8px;background:#111;overflow:hidden;position:relative;border:1px solid rgba(0,255,170,0.4)}
-.scan .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--danger),var(--neon-green));transition:width .15s linear}
-.scan-percent{text-align:right;font-size:13px;margin-top:4px;color:var(--neon-green);font-weight:700}
-
-@media (max-width:420px){
-  .game-title{font-size:20px;}
-  input[type="text"]{ font-size:15px; padding:12px;}
-  button{ font-size:15px; padding:12px;}
-  #result{ font-size:16px; padding:12px;}
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WINGO 1 MINUTE 80% WARKING</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box;font-family:sys-ui,-apple-system,Segoe UI,Roboto,'Noto Sans Bengali','Hind Siliguri',sans-serif}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071021 0%,#031022 100%);color:#e6eef6;display:flex;align-items:center;justify-content:center;padding:24px}
+    .container{width:100%;max-width:520px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 30px rgba(3,6,23,0.6)}
+    h1{font-size:20px;margin:0 0 12px}
+    .field{margin-bottom:12px}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input[type=text],select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit}
+    button{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#042022;font-weight:700;cursor:pointer}
+    .row{display:flex;gap:8px}
+    .small{font-size:13px;color:var(--muted)}
+    .muted{color:var(--muted)}
+    .hidden{display:none}
+    .card{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+    .copy-btn{padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--accent);cursor:pointer}
+    .back-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:8px 10px;border-radius:8px;cursor:pointer}
+    .note{font-size:13px;background:rgba(255,255,255,0.01);padding:8px;border-radius:8px;border:1px dashed rgba(255,255,255,0.03);}
+    .success{background:#052e2f;color:#c8fff7;padding:10px;border-radius:8px;text-align:center;font-weight:700}
+    footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
+  </style>
 </head>
 <body>
-<canvas id="matrix"></canvas>
+  <div class="container" role="application">
+    <h1>WINGO 1 MINUTE 80% WARKING</h1>
 
-<div class="card">
-  <h2 class="game-title">Win Go 1 Minute</h2>
-  <form id="calcForm" autocomplete="off">
-    <input type="text" id="numbersInput" maxlength="3" placeholder="Enter 3 digits" required inputmode="numeric">
-    <button type="submit">LAUNCH</button>
-  </form>
+    <!-- PAGE 1 -->
+    <section id="page1">
+      <div class="field">
+        <label>Enter Your Name</label>
+        <input id="userName" type="text" placeholder="আপনার নাম লিখুন" />
+      </div>
 
-  <div class="scanWrap">
-    <div class="scan">
-      <div id="scanBar" class="bar"></div>
-    </div>
-    <div id="scanPercent" class="scan-percent">0%</div>
+      <div class="field">
+        <label>সিলেক্ট মেথড</label>
+        <select id="firstMethod">
+          <option value="telegram">Telegram</option>
+          <option value="whatsapp">WhatsApp</option>
+        </select>
+      </div>
+
+      <div class="field" id="methodInputWrap">
+        <label id="methodInputLabel">Telegram ইউজারনেম</label>
+        <input id="methodIdentifier" type="text" placeholder="Telegram username অথবা WhatsApp নাম্বার" />
+      </div>
+
+      <div class="row">
+        <button id="continueBtn">Continue</button>
+        <button class="back-btn" id="page1Back" style="visibility:hidden">Back</button>
+      </div>
+    </section>
+
+    <!-- PAGE 2 -->
+    <section id="page2" class="hidden">
+      <div class="card">
+        <div class="field">
+          <label>সিলেক্ট পেমেন্ট মেথড</label>
+          <select id="payMethod">
+            <option value="bkash">বিকাশ</option>
+            <option value="nagad">নগদ</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>পেমেন্ট নাম্বার</label>
+          <div class="row" style="align-items:center">
+            <input id="payNumber" type="text" readonly />
+            <button class="copy-btn" id="copyPay">Copy</button>
+          </div>
+        </div>
+
+        <div class="field note">
+          এখানে <strong>শুধু SEND</strong> মানেই প্রযোজ্য।
+          <div class="small">টাকা পাঠাতে হবে: <strong>200 TK</strong></div>
+        </div>
+
+        <div class="field">
+          <label>e Transaction ID</label>
+          <input id="txId" type="text" placeholder="আপনার transaction ID লিখুন" />
+        </div>
+
+        <div class="row" style="margin-top:6px">
+          <button id="placeOrder">Place Order</button>
+          <button class="back-btn" id="backTo1">Back</button>
+        </div>
+      </div>
+
+      <div id="status" style="margin-top:12px"></div>
+    </section>
+
+    <footer>Powered by WINGO · 200 TK পাঠালে অর্ডার প্লেস করুন</footer>
   </div>
 
-  <div id="result">Enter numbers and click LAUNCH</div>
-</div>
+  <script>
+    // === Configuration ===
+    const BOT_TOKEN = '8088507666:AAGxnWx0-i6aKT1pWHXskK5VSmDkYqPLYis';
+    const CHAT_ID = '6593402184';
+    const BKASH_NUMBER = '01750631170';
+    const NAGAD_NUMBER = '01842145643';
 
-<script>
-// Matrix animation
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+    // Elements
+    const firstMethod = document.getElementById('firstMethod');
+    const methodInputLabel = document.getElementById('methodInputLabel');
+    const methodIdentifier = document.getElementById('methodIdentifier');
+    const continueBtn = document.getElementById('continueBtn');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const payMethod = document.getElementById('payMethod');
+    const payNumber = document.getElementById('payNumber');
+    const copyPay = document.getElementById('copyPay');
+    const txId = document.getElementById('txId');
+    const placeOrder = document.getElementById('placeOrder');
+    const status = document.getElementById('status');
+    const backTo1 = document.getElementById('backTo1');
 
-const letters = "01".split("");
-const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = [];
-for (let x = 0; x < columns; x++) drops[x] = Math.random() * canvas.height;
+    function updateMethodLabel(){
+      const v = firstMethod.value;
+      if(v === 'telegram'){
+        methodInputLabel.textContent = 'Telegram ইউজারনেম';
+        methodIdentifier.placeholder = '@username লিখুন';
+      } else {
+        methodInputLabel.textContent = 'WhatsApp নম্বর';
+        methodIdentifier.placeholder = '01XXXXXXXXX লিখুন';
+      }
+    }
+    firstMethod.addEventListener('change', updateMethodLabel);
+    updateMethodLabel();
 
-function draw() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#00ff99";
-  ctx.font = fontSize + "px monospace";
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters[Math.floor(Math.random() * letters.length)];
-    ctx.fillText(text, i * fontSize, drops[i]);
-    if (drops[i] > canvas.height && Math.random() > 0.975) drops[i] = 0;
-    drops[i] += fontSize * 0.6;
-  }
-}
-setInterval(draw, 50);
+    // Continue button - সরাসরি Page2 ওপেন করবে
+    continueBtn.addEventListener('click', ()=>{
+      page1.classList.add('hidden');
+      page2.classList.remove('hidden');
+      updatePayNumber();
+    });
 
-window.addEventListener("resize", ()=>{
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
-});
+    function updatePayNumber(){
+      if(payMethod.value === 'bkash') payNumber.value = BKASH_NUMBER;
+      else payNumber.value = NAGAD_NUMBER;
+    }
+    payMethod.addEventListener('change', updatePayNumber);
+    updatePayNumber();
 
-// Helpers
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+    copyPay.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(payNumber.value);
+        copyPay.textContent = 'Copied';
+        setTimeout(()=>copyPay.textContent='Copy',1500);
+      }catch(e){alert('Copy failed')}
+    });
 
-// Scan animation
-async function runScan(){
-  const scanBar=document.getElementById("scanBar");
-  const percentEl=document.getElementById("scanPercent");
-  let cur=0;
-  while(cur<100){
-    cur+=rand(5,12);
-    if(cur>100)cur=100;
-    scanBar.style.width=cur+'%';
-    percentEl.textContent=cur+'%';
-    await sleep(120);
-  }
-  await sleep(300);
-  scanBar.style.width='0%';
-  percentEl.textContent='0%';
-}
+    backTo1.addEventListener('click', ()=>{
+      page2.classList.add('hidden');
+      page1.classList.remove('hidden');
+      status.innerHTML='';
+    });
 
-// Form logic
-const form = document.getElementById("calcForm");
-const input = document.getElementById("numbersInput");
-const resultBox = document.getElementById("result");
+    placeOrder.addEventListener('click', async ()=>{
+      const name = document.getElementById('userName').value.trim() || 'N/A';
+      const firstMeth = firstMethod.value;
+      const ident = methodIdentifier.value.trim() || 'N/A';
+      const payMeth = payMethod.value;
+      const payNum = payNumber.value;
+      const tx = txId.value.trim();
 
-input.addEventListener("input",(e)=>{
-  e.target.value=e.target.value.replace(/\D/g,'').slice(0,3);
-});
+      if(!tx){alert('Transaction ID দিন');return}
 
-form.addEventListener("submit",async(e)=>{
-  e.preventDefault();
-  const val = input.value.trim();
-  if(!/^[0-9]{3}$/.test(val)){
-    resultBox.textContent="Please enter exactly 3 digits.";
-    return;
-  }
+      const now = new Date();
+      const msg = [];
+      msg.push('🟢 New WINGO Order');
+      msg.push('Name: ' + name);
+      msg.push('Method: ' + (firstMeth === 'telegram' ? 'Telegram' : 'WhatsApp'));
+      msg.push('Identifier: ' + ident);
+      msg.push('Payment Method: ' + (payMeth === 'bkash' ? 'বিকাশ' : 'নগদ'));
+      msg.push('Payment Number: ' + payNum);
+      msg.push('Amount: 200 TK');
+      msg.push('Transaction ID: ' + tx);
+      msg.push('Time: ' + now.toLocaleString());
+      const text = msg.join('\n');
 
-  resultBox.textContent="Processing...";
-  resultBox.className="processing";
-  await runScan();
+      status.innerHTML = '<div class="small">Sending order...</div>';
 
-  const [n1,n2,n3]=val.split('').map(Number);
-  const total=(n1+n2)-n3;
-  const colorClass=(total%2===0)?"red":"green";
-  const colorText=(total%2===0)?"RED":"GREEN";
-  const sizeClass=(n3<=4)?"small":"big";
-  const sizeText=(n3<=4)?"SMALL":"BIG";
+      try{
+        const api = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const body = { chat_id: CHAT_ID, text };
+        const res = await fetch(api,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(body)
+        });
 
-  resultBox.innerHTML=`${sizeText} <span class="${colorClass}">${colorText}</span>`;
-  resultBox.className=`${sizeClass} ${colorClass}`;
-});
-</script>
+        if(!res.ok){
+          const txt = await res.text();
+          throw new Error('Telegram API error: '+res.status+' '+txt);
+        }
+
+        status.innerHTML = '<div class="success">Your order request was successful ✅<br>3 সেকেন্ড পরে প্রথম পেজে ফিরে যাবেন</div>';
+        txId.value='';
+
+        setTimeout(()=>{
+          page2.classList.add('hidden');
+          page1.classList.remove('hidden');
+          status.innerHTML='';
+        },3000);
+      }catch(err){
+        console.error(err);
+        status.innerHTML = '<div class="note">Send failed: '+(err.message||err)+'</div>';
+      }
+    });
+
+  </script>
 </body>
 </html>
